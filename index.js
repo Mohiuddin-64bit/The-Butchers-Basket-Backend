@@ -121,6 +121,20 @@ async function run() {
       }
     });
 
+    // GET All product
+    app.get("/product", async (req, res) => {
+      try {
+        const db = client.db("butchersBasket");
+        const productCollection = db.collection("allProducts");
+
+        const product = await productCollection.find(req.query).toArray();
+        res.json(product);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    });
+
     // GET Single Supplies
     app.get("/product/:id", async (req, res) => {
       try {
@@ -178,20 +192,7 @@ async function run() {
       }
     });
 
-    // GET All product
-    app.get("/product", async (req, res) => {
-      try {
-        const db = client.db("butchersBasket");
-        const productCollection = db.collection("allProducts");
-
-        const product = await productCollection.find().toArray();
-
-        res.json(product);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        res.status(500).json({ message: "Internal server error" });
-      }
-    });
+    
 
     // GET All flash-sale
     app.get("/flash-sale", async (req, res) => {
